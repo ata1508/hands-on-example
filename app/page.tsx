@@ -1,13 +1,16 @@
 /** @jsxImportSource @emotion/react */
 "use client";
-import { css } from "@emotion/react";
 import DataTable from "@/components/DataTable/DataTable";
 import Filter from "@/components/Filter/Filter";
 import PopulationChangeGraph from "@/components/Graph/PopulationChangeGraph";
 import PopulationDensityGraph from "@/components/Graph/PopulationDensityGraph";
 import PrefPopulationGraph from "@/components/Graph/PrefPopulationGraph";
+import PrefPopulationIncreaseGraph from "@/components/Graph/PrefPopulationIncreaseGraph";
+import GraphTab from "@/components/GraphTab";
 import { useFetch } from "@/hooks/useFetch";
 import { PrefPopulation } from "@/types/Response";
+import { TAB_NAME, TabState } from "@/types/TabState";
+import { css } from "@emotion/react";
 import {
   AppBar,
   Box,
@@ -15,19 +18,18 @@ import {
   ThemeProvider,
   Toolbar,
   Typography,
-  colors,
 } from "@mui/material";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
   BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LineController,
+  LineElement,
+  LinearScale,
+  PointElement,
   Title,
   Tooltip,
-  Legend,
-  LineElement,
-  PointElement,
-  LineController,
   UpdateMode,
 } from "chart.js";
 import {
@@ -37,10 +39,7 @@ import {
   useRef,
   useState,
 } from "react";
-import GraphTab from "@/components/GraphTab";
-import { TAB_NAME, TabState } from "@/types/TabState";
 import { theme } from "./theme/theme";
-import PrefPopulationIncreaseGraph from "@/components/Graph/PrefPopulationIncreaseGraph";
 
 ChartJS.register(
   CategoryScale,
@@ -93,7 +92,7 @@ const Page = () => {
   if (yearElement.current) {
     const date = new Date();
     const year = date.getFullYear();
-    yearElement.current.textContent = year;
+    yearElement.current.textContent = String(year);
   }
 
   const layoutStyle = (tabValue: TabState) => css`
@@ -125,7 +124,7 @@ const Page = () => {
         <AppBar position="static" sx={{ p: 1 }}>
           <Toolbar>
             <Typography variant="h1" component="h1">
-              タイトル
+              日本の都道府県別人口データ
             </Typography>
           </Toolbar>
         </AppBar>
